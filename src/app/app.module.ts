@@ -1,6 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER, Injector } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
+import { JwtModule } from '@auth0/angular-jwt';
 
 import { ShareModule } from './share/share.module';
 import { AppComponent } from './app.component';
@@ -9,7 +11,12 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { HomeComponent } from './home/home.component';
 import { UserModule } from './user/user.module';
 import { from } from 'rxjs';
+import { StartupService } from './services/startup.service';
+import { UtilsService } from './services';
 
+export function startupServiceFactory(startupService: StartupService): Function {
+  return () => startupService.load();
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,9 +28,27 @@ import { from } from 'rxjs';
     AppRoutingModule,
     BrowserAnimationsModule,
     ShareModule,
-    UserModule
+    UserModule,
+    HttpClientModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => {
+          return localStorage.getItem('access_token');
+        },
+        whitelistedDomains: ['localhost:3000']
+      }
+    })
   ],
-  providers: [],
+  providers: [
+    UtilsService,
+    StartupService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: startupServiceFactory,
+      deps: [StartupService, Injector],
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

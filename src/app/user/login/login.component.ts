@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
+
+import { UserService } from '../service/user.service';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +13,9 @@ export class LoginComponent implements OnInit {
   public form: FormGroup;
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private userService: UserService,
+    private snackbar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -24,5 +29,14 @@ export class LoginComponent implements OnInit {
   get password() { return this.form.get('password'); }
   get rememberMe() { return this.form.get('rememberMe'); }
 
-  login() {}
+  login() {
+    this.userService.login(this.form.value)
+    .subscribe(res => {
+      if (res) {
+        this.snackbar.open('登入成功', 'OK', {duration: 3000});
+      } else {
+        this.snackbar.open('請檢查使用者名稱及密碼', 'OK', {duration: 3000});
+      }
+    });
+  }
 }
