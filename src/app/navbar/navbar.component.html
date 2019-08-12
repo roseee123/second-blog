@@ -1,1 +1,5 @@
-<p>navbar works!</p>
+<mat-toolbar [style.background] = "(login$ | async) ? 'green' : 'blue'" class="navbar">
+  <a mat-button routerLink='/'>首頁</a>
+  <a mat-button *ngIf="!(login$ | async)" routerLink='/user/login'>登入</a>
+  <a mat-button *ngIf="login$ | async" (click)="logout()">登出</a>
+</mat-toolbar>

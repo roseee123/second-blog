@@ -8,10 +8,15 @@ import { Observable, of } from 'rxjs';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+  login$: Observable<boolean>;
 
   constructor() { }
 
   ngOnInit() {
+    this.login$ = of(true);
+  }
+  logout() {
+    this.login$ = of(false);
   }
 
 }
