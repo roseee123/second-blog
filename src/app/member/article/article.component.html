@@ -1,0 +1,12 @@
+<p>article</p>
+<div class="container" *ngIf="(article$ | async) as article">
+  <header class="center"><h3>{{article.author}}</h3></header>
+  <!-- <section>
+    <img alt="report image" src="{{report.image}}" class="image"/>
+  </section> -->
+
+  <section>
+    <div class="title">{{ article.title }}</div>
+    <p>{{article.contents}}</p>
+  </section>
+</div>

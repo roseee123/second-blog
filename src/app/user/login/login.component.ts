@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
+import { Router } from '@angular/router';
 
 import { UserService } from '../service/user.service';
 
@@ -15,7 +16,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -34,6 +36,7 @@ export class LoginComponent implements OnInit {
     .subscribe(res => {
       if (res) {
         this.snackbar.open('登入成功', 'OK', {duration: 3000});
+        this.router.navigate(['/member']);
       } else {
         this.snackbar.open('請檢查使用者名稱及密碼', 'OK', {duration: 3000});
       }

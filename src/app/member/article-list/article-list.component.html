@@ -1,0 +1,21 @@
+<p>article-list</p>
+<div class="container">
+  <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="20px" fxLayoutWrap>
+    <mat-card fxFlex [ngStyle.gt-sm]="{'max-width': 'calc(25% - 20px)'}"  *ngFor="let article of (articles$ | async)" class="card" (click)="onClick(article)">
+      <!-- <mat-card fxFlex *ngFor="let article of (articles$ | async)" class="card" (click)="onClick(article)"> -->
+      <mat-card-header fxLayout = "row" fxLayoutAlign="start" class="card-header" fxLayoutGap="10px">
+        <div class="avatar-text">
+          {{article.title.charAt(0)}}
+        </div>
+        <div fxFlex= "70%">{{article.title}}</div>
+      </mat-card-header>
+      <!-- <img mat-card-image alt="report image" src="{{report.image}}"/> -->
+      <mat-card-content fxLayout="column">
+        {{ article.contents.slice(0, 50) + '...'}}
+      </mat-card-content>
+      <mat-card-footer>
+        {{article.author}}
+      </mat-card-footer>
+    </mat-card>
+  </div>
+</div>
